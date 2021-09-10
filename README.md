@@ -1,9 +1,5 @@
+## Lifelog data
 Download the lifelog dataset here: http://lsc.dcu.ie/.
-
-Example code to generate QA pairs is in `generate_questions.py`.
-```bash
-$ python generate_questions.py "The lifelogger is watching tv and eating breakfast."
-```
 
 ## Requirements
 Create new environment
@@ -15,9 +11,13 @@ Install Apex:
 git clone https://github.com/NVIDIA/apex
 cd apex
 pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
-
 ```
 
+## Generating QA pairs
+Example code to generate QA pairs is in `generate_questions.py`.
+```bash
+$ python generate_questions.py "The lifelogger is watching tv and eating breakfast."
+```
 
 The QA pairs are in the folder `published`. Example data:
 ```javascript
