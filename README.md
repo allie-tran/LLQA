@@ -12,6 +12,9 @@ git clone https://github.com/NVIDIA/apex
 cd apex
 pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 ```
+# Necessary models
+They are uploaded here: https://drive.google.com/drive/folders/1HchmvEziAhOfnMIC3-lOU0SNoUEtRCjv?usp=sharing
+Download the files and put `distractor.pt` in `models/`, `pytorch_model.bin` in `models/whword_gen/`, and `knowledge.json` in `models/knowledge/`.
 
 ## Generating QA pairs
 Example code to generate QA pairs is in `generate_questions.py`.
