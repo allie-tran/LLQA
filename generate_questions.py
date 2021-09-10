@@ -3,7 +3,6 @@ import os
 import sys
 import logging
 import warnings
-from tqdm import tqdm
 import random
 warnings.filterwarnings("ignore")
 logging.disable(sys.maxsize)
@@ -15,8 +14,6 @@ from generator import DistractorGenerator
 
 # File formats
 from pprint import pprint
-from collections import defaultdict
-import json
 
 def fix_case(text):
     if text:
@@ -29,7 +26,7 @@ class QA:
     """
     def __init__(self, question, answers):
         qa = {}
-        qa["question"] = fix_case(question)
+        qa["question"] = fix_case(question.replace('[]', ''))
         answers = [fix_case(answer) for answer in answers]
         correct_answer = answers[0]
         random.shuffle(answers)
@@ -83,12 +80,12 @@ if __name__ == "__main__":
     distractor.load()
 
     sents = sys.argv[-1]
-    sents = """We go back to his office and use the laptop. [7pm]
-            """
     print("Processing:", sents)
     facts = set(make_facts(sents))
+    # print(facts)
+    context = ". ".join([fact[0] for fact in facts])
     # =========================================================================== #
-    print("-" * 80, "\nMaking questions")
+    # print("-" * 80, "\nMaking questions")
     questions = list(set(make_questions(facts)))
     qa_dict = {}
     for (question, answer), time in questions:
@@ -97,14 +94,14 @@ if __name__ == "__main__":
             qa_dict[question] = answer
             # print("\t", question, answer)
     questions = list(qa_dict.items())
-
+    q_count = 0
     if questions:
         # =========================================================================== #
-        print("-" * 80, "\nGathering knowledge")
+        # print("-" * 80, "\nGathering knowledge")
         knowledges = list(knowledge.get_batch_fact(
             [f"{question.split('[')[0] + question.split(']')[-1]} {answer}" for question, answer in questions], 10))
         # =========================================================================== #
-        print("-" * 80, "\nGenerating distractors")
+        # print("-" * 80, "\nGenerating distractors")
         for i, ((question, answer), know) in enumerate(zip(questions, knowledges)):
             if answer in ["yes", "no"]:
                 answers = ["yes", "no"] if answer == "yes" else ["no", "yes"]
@@ -112,8 +109,8 @@ if __name__ == "__main__":
                 answers = [answer] + distractor(
                         ". ".join([context] + know[:10]), question, answer)
             answers = filter_answers(answers)
-            qa = QA(q_count, question, answers, scene['scene']).qa
+            qa = QA(question, answers).qa
             q_count += 1
-            print(qa)
+            pprint(qa)
             
 

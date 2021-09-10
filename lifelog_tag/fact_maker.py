@@ -128,7 +128,8 @@ class FactMaker:
             #     time = f"at {time}"
             time = ""
             line = line.replace('(', '[').replace(')', ']')
-            time = line.split('[')[-1][:-1].strip(' ]\n')
+            if '[' in line:
+                time = line.split('[')[-1][:-1].strip(' ]\n')
             for sent in [s.strip() for s in line.split('[')[0].split('.')]:
                 if sent:
                     sents.append((f"{sent}", time, True))

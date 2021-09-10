@@ -212,7 +212,7 @@ class SimpleQuestionGenerator:
         root = -1
         questions = []
         root = [token.i for token in doc if token.head == token]
-        assert root, "can't find root"
+        assert root, "Skipping " + text + ": couldn't find root."
         root = root[0]
         nsubj = None
         done = False
@@ -234,10 +234,10 @@ class SimpleQuestionGenerator:
 
         if not done:
             if not nsubj:
-                print("Can't find subject")
-                print(text)
-                print([token.text for token in doc])
-                print([token.dep_ for token in doc])
+                # print("Can't find subject")
+                # print(text)
+                # print([token.text for token in doc])
+                # print([token.dep_ for token in doc])
                 return [], []
 
             if not truth:
@@ -302,10 +302,6 @@ class SimpleQuestionGenerator:
                                     text, doc, root, aux, child.i))
                             if child.dep_ in ["advmod", "acomp"]:
                                 questions.extend(self._generate_how(text, doc, root, aux))
-                    else:
-                        print("Wrong POS-tagging in:", text)
-                        print([(token.text, token.dep_) for token in doc])
-                        # exit()
 
                 for token in doc:
                     if token.pos_ == "SCONJ":
@@ -324,7 +320,7 @@ class SimpleQuestionGenerator:
                             if question:
                                 questions.append((question, answer))
                         except ValueError:
-                            print(text)
+                            pass
 
         lowercases = []
         for question, answer in set(questions):
