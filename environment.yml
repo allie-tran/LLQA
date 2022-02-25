@@ -3,14 +3,17 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.6
+  - python=3.7
   - pip
   - pip:
     - allennlp==2.1.0
+    - allennlp-models==2.1.0
     - text2text==0.6.1
-  - spacy=3.1.2
+  - spacy=3.2.0
+  - pattern3
+  - inflect
   - tqdm
-  
+
 variables:
   DISTRACTOR_PATH: distractor
   DISTRACTOR_DATA_PATH: models/distractor.pt
@@ -18,4 +21,3 @@ variables:
   QUESTION_GEN_PATH: models/whword_gen/
   MULTIPLE_ANSWERER_PATH: models/s2s_answerer/
   MULTIPLE_ANSWERER_PATH_RETRAINED: models/s2s_retrained/
-
